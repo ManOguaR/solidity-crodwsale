@@ -1,3 +1,7 @@
+#remix
+.prettierrc.json
+.deps/**
+
 # Logs
 logs
 *.log
