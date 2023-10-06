@@ -16,7 +16,7 @@ contract WhitelistCrowdsale is Crowdsale, AccessControl {
     constructor (uint256 inRate, address payable inWallet, IERC20 inToken)
         Crowdsale(inRate, inWallet, inToken)
     {
-        _grantRole(DEFAULT_ADMIN_ROLE, inWallet);
+        _grantRole(WHITELIST_ADMIN_ROLE, inWallet);
     }
     
     function addToWhitelist(address candidate) public onlyRole(WHITELIST_ADMIN_ROLE)

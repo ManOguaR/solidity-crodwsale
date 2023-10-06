@@ -4,13 +4,13 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "crowdsale/crowdsale.sol";
-import "access/roles/capperRole.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
  * @title IndividuallyCappedCrowdsale
  * @dev Crowdsale with per-beneficiary caps.
  */
-contract IndividuallyCappedCrowdsale is Crowdsale, CapperRole {
+contract IndividuallyCappedCrowdsale is Crowdsale, AccessControl {
     using SafeMath for uint256;
 
     mapping(address => uint256) private _contributions;
@@ -26,7 +26,7 @@ contract IndividuallyCappedCrowdsale is Crowdsale, CapperRole {
      * @param beneficiary Address to be capped
      * @param cap Wei limit for individual contribution
      */
-    function setCap(address beneficiary, uint256 cap) external onlyCapper {
+    function setCap(address beneficiary, uint256 cap) external onlyRole(DEFAULT_ADMIN_ROLE) {
         _caps[beneficiary] = cap;
     }
 
