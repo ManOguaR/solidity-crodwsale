@@ -1,7 +1,5 @@
 #remix
 .prettierrc.json
-.deps
-artifacts/
 
 #visual studio
 .vs
