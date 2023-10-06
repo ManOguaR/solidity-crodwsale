@@ -1,0 +1,215 @@
+{
+	"compiler": {
+		"version": "0.8.21+commit.d9974bed"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "PrimaryTransferred",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "primary",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "contract IERC20",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transfer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "transferPrimary",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Similar to an Escrow for tokens, this contract allows its primary account to spend its tokens as it sees fit. This contract is an internal helper for PostDeliveryCrowdsale, and should not be used outside of this context.",
+			"events": {
+				"PrimaryTransferred(address)": {
+					"details": "Emitted when the primary contract changes."
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"primary()": {
+					"returns": {
+						"_0": "the address of the primary."
+					}
+				},
+				"transferPrimary(address)": {
+					"details": "Transfers contract to a new primary.",
+					"params": {
+						"recipient": "The address of new primary."
+					}
+				}
+			},
+			"title": "__unstable__TokenVault",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"crowdsale/distribution/postDeliveryCrowdsale.sol": "__unstable__TokenVault"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/security/Pausable.sol": {
+			"keccak256": "0x0849d93b16c9940beb286a7864ed02724b248b93e0d80ef6355af5ef15c64773",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ddabb16009cd17eaca3143feadf450ac13e72919ebe2ca50e00f61cb78bc004",
+				"dweb:/ipfs/QmSPwPxX7d6TTWakN5jy5wsaGkS1y9TW8fuhGSraMkLk2B"
+			]
+		},
+		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
+			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34",
+				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0x287b55befed2961a7eabd7d7b1b2839cbca8a5b80ef8dcbb25ed3d4c2002c305",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bd39944e8fc06be6dbe2dd1d8449b5336e23c6a7ba3e8e9ae5ae0f37f35283f5",
+				"dweb:/ipfs/QmPV3FGYjVwvKSgAXKUN3r9T9GwniZz83CxBpM7vyj2G53"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol": {
+			"keccak256": "0x6008dabfe393240d73d7dd7688033f72740d570aa422254d29a7dce8568f3aff",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f5196ec75139918c6c7bb4251b36395e668f1fa6d206beba7e7520e74913940d",
+				"dweb:/ipfs/QmSyqjksXxmm2mCG6qRd1yuwLykypkSVBbnBnGqJRcuJMi"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol": {
+			"keccak256": "0xabefac93435967b4d36a4fabcbdbb918d1f0b7ae3c3d85bc30923b326c927ed1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9d213d3befca47da33f6db0310826bcdb148299805c10d77175ecfe1d06a9a68",
+				"dweb:/ipfs/QmRgCn6SP1hbBkExUADFuDo8xkT4UU47yjNF5FhCeRbQmS"
+			]
+		},
+		"@openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0x006dd67219697fe68d7fbfdea512e7c4cb64a43565ed86171d67e844982da6fa",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2455248c8ddd9cc6a7af76a13973cddf222072427e7b0e2a7d1aff345145e931",
+				"dweb:/ipfs/QmfYjnjRbWqYpuxurqveE6HtzsY1Xx323J428AKQgtBJZm"
+			]
+		},
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0x75a4ee64c68dbd5f38bddd06e664a64c8271b4caa554fb6f0607dfd672bb4bf3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0c4e6cb30d3601e2f7af5af09e265508147cb275a8dcd99d6f7363645cc56867",
+				"dweb:/ipfs/QmNgFkoXNWoUbAyw71rr1sKQ95Rj2GfvYiWg79xEYDn2NY"
+			]
+		},
+		"@openzeppelin/contracts/utils/math/SafeMath.sol": {
+			"keccak256": "0x58b21219689909c4f8339af00813760337f7e2e7f169a97fe49e2896dcfb3b9a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ef8e012e946dec20e59f2d4446f4b44bb098f3fa8bac103b1b5112fff777447b",
+				"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ"
+			]
+		},
+		"crowdsale/crowdsale.sol": {
+			"keccak256": "0xee463c77b303be60fe3509ff7b9aa23f2674f07b68622278a611ab7908591689",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3cb0baa0aace90973f81b63d0d3769d000b113f68fd089e0988f0c3468f5a1d9",
+				"dweb:/ipfs/QmTi1mH6UupQvzs1AW1kr1sgMWW4wtjKWxngYd6dQ6Pdgj"
+			]
+		},
+		"crowdsale/distribution/postDeliveryCrowdsale.sol": {
+			"keccak256": "0x914577a1b8c2bb9ac291302e3f03dd7e8bee391e84bfc83d3028a833144d9c76",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3241b820dfc2b1e5cd71d3d83d7d870b79d7ea35831d1c8606e2abada4bddef5",
+				"dweb:/ipfs/QmXuoXjF84XPcd2ptbY3qqChensbqzVVKnAUr6uBHvZj7u"
+			]
+		},
+		"crowdsale/secondary.sol": {
+			"keccak256": "0xf44dab61428b4cb8313e79f7fc8c98c413946241c9484b04f014879a3fec971d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f72f67cf3c98a881c7abd80c8204fd7f07ae9cbd64b08aafcebe1a393a846e4f",
+				"dweb:/ipfs/QmcZFDwuFPm7XARfWJn48hWtX5zNo4RWGxPwq6EEdYEExs"
+			]
+		},
+		"crowdsale/validation/timedCrowdsale.sol": {
+			"keccak256": "0x82574104af0173f820a2ab81c4e5202e5868a0d80f98c6f999c3ce9e3fecfa7b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9966d917f5319a2663fbf998f6acc83be0b0445dd37bcf2b0f6f4c582c59a5fd",
+				"dweb:/ipfs/Qmc1zEZN3kRQF7EFwCUWAhg8bkGN1m9gPsEpUpvQZnU4bq"
+			]
+		}
+	},
+	"version": 1
+}

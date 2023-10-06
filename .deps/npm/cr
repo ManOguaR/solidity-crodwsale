@@ -1,0 +1,14 @@
+/**
+ * Minified by jsDelivr using Terser v5.3.5.
+ * Original file: /npm/cr@0.1.0/index.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+/*!
+ * cr <https://github.com/jonschlinkert/cr>
+ *
+ * Copyright (c) 2015, Jon Schlinkert.
+ * Licensed under the MIT License.
+ */
+"use strict";module.exports=function(r){if("string"!=typeof r)throw new TypeError("expected a string");return r.replace(/\r\n|\r/g,"\n")},module.exports.strip=function(r){if("string"!=typeof r)throw new TypeError("expected a string");return r.split("\r").join("")};
+//# sourceMappingURL=/sm/26760d9023b3a481045e3a73f3346eae8393f542837f57d2e3f5fcec35bdc1cd.map
