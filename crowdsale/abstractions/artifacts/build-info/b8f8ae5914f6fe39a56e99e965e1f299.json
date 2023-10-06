@@ -1,5 +1,5 @@
 {
-	"id": "a81de7a85b03cc8b6d4cc439fac8a438",
+	"id": "b8f8ae5914f6fe39a56e99e965e1f299",
 	"_format": "hh-sol-build-info-1",
 	"solcVersion": "0.8.21",
 	"solcLongVersion": "0.8.21+commit.d9974bed",
@@ -7,7 +7,7 @@
 		"language": "Solidity",
 		"sources": {
 			"crowdsale/abstractions/refundable.sol": {
-				"content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.9;\r\n\r\n\r\nimport \"@openzeppelin/contracts/utils/Context.sol\";\r\nimport \"@openzeppelin/contracts/utils/math/SafeMath.sol\";\r\nimport \"@openzeppelin/contracts/utils/escrow/RefundEscrow.sol\";\r\n\r\n/**\r\n * @title RefundableCrowdsale\r\n * @dev Extension of `FinalizableCrowdsale` contract that adds a funding goal, and the possibility of users\r\n * getting a refund if goal is not met.\r\n *\r\n * Deprecated, use `RefundablePostDeliveryCrowdsale` instead. Note that if you allow tokens to be traded before the goal\r\n * is met, then an attack is possible in which the attacker purchases tokens from the crowdsale and when they sees that\r\n * the goal is unlikely to be met, they sell their tokens (possibly at a discount). The attacker will be refunded when\r\n * the crowdsale is finalized, and the users that purchased from them will be left with worthless tokens.\r\n */\r\nabstract contract RefundableContract is Context {\r\n    using SafeMath for uint256;\r\n\r\n    // minimum amount of funds to be raised in weis\r\n    uint256 private _goal;\r\n\r\n    // refund escrow used to hold funds while crowdsale is running\r\n    RefundEscrow private _escrow;\r\n\r\n    /**\r\n     * @dev Constructor, creates RefundEscrow.\r\n     * @param inGoal Funding goal\r\n     */\r\n    constructor (uint256 inGoal, address payable inWallet) \r\n    {\r\n        require(inGoal > 0, \"RefundableCrowdsale: goal is 0\");\r\n        _escrow = new RefundEscrow(inWallet);\r\n        _goal = inGoal;\r\n    }\r\n\r\n    /**\r\n     * @return minimum amount of funds to be raised in wei.\r\n     */\r\n    function goal() public view returns (uint256) {\r\n        return _goal;\r\n    }\r\n    \r\n    /**\r\n     * @dev Investors can claim refunds here if crowdsale is unsuccessful.\r\n     * @param refundee Whose refund will be claimed.\r\n     */\r\n    function _claimRefund(address payable refundee) internal virtual {\r\n        _escrow.withdraw(refundee);\r\n    }\r\n\r\n    function _closeAndWithdraw() internal {\r\n        _escrow.close();\r\n        _escrow.beneficiaryWithdraw();\r\n    }\r\n\r\n    function _enableRefunds() internal  {\r\n        _escrow.enableRefunds();\r\n    }\r\n}"
+				"content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.9;\r\n\r\n\r\nimport \"@openzeppelin/contracts/utils/Context.sol\";\r\nimport \"@openzeppelin/contracts/utils/math/SafeMath.sol\";\r\nimport \"@openzeppelin/contracts/utils/escrow/RefundEscrow.sol\";\r\n\r\n/**\r\n * @title RefundableCrowdsale\r\n * @dev Extension of `FinalizableCrowdsale` contract that adds a funding goal, and the possibility of users\r\n * getting a refund if goal is not met.\r\n *\r\n * Deprecated, use `RefundablePostDeliveryCrowdsale` instead. Note that if you allow tokens to be traded before the goal\r\n * is met, then an attack is possible in which the attacker purchases tokens from the crowdsale and when they sees that\r\n * the goal is unlikely to be met, they sell their tokens (possibly at a discount). The attacker will be refunded when\r\n * the crowdsale is finalized, and the users that purchased from them will be left with worthless tokens.\r\n */\r\nabstract contract RefundableContract is Context {\r\n    using SafeMath for uint256;\r\n\r\n    // minimum amount of funds to be raised in weis\r\n    uint256 private _goal;\r\n\r\n    // refund escrow used to hold funds while crowdsale is running\r\n    RefundEscrow private _escrow;\r\n\r\n    /**\r\n     * @dev Constructor, creates RefundEscrow.\r\n     * @param inGoal Funding goal\r\n     */\r\n    constructor (uint256 inGoal, address payable inWallet) \r\n    {\r\n        require(inGoal > 0, \"RefundableCrowdsale: goal is 0\");\r\n        _escrow = new RefundEscrow(inWallet);\r\n        _goal = inGoal;\r\n    }\r\n\r\n    /**\r\n     * @return minimum amount of funds to be raised in wei.\r\n     */\r\n    function goal() public view returns (uint256) {\r\n        return _goal;\r\n    }\r\n    \r\n    /**\r\n     * @dev Investors can claim refunds here if crowdsale is unsuccessful.\r\n     * @param refundee Whose refund will be claimed.\r\n     */\r\n    function _claimRefund(address payable refundee) internal {\r\n        _escrow.withdraw(refundee);\r\n    }\r\n\r\n    function _closeAndWithdraw() internal {\r\n        _escrow.close();\r\n        _escrow.beneficiaryWithdraw();\r\n    }\r\n\r\n    function _enableRefunds() internal  {\r\n        _escrow.enableRefunds();\r\n    }\r\n\r\n    function _depositInEscrow() internal {\r\n        _escrow.deposit{value: msg.value}(_msgSender());\r\n    }\r\n}"
 			},
 			"@openzeppelin/contracts/utils/escrow/RefundEscrow.sol": {
 				"content": "// SPDX-License-Identifier: MIT\n// OpenZeppelin Contracts v4.4.1 (utils/escrow/RefundEscrow.sol)\n\npragma solidity ^0.8.0;\n\nimport \"./ConditionalEscrow.sol\";\n\n/**\n * @title RefundEscrow\n * @dev Escrow that holds funds for a beneficiary, deposited from multiple\n * parties.\n * @dev Intended usage: See {Escrow}. Same usage guidelines apply here.\n * @dev The owner account (that is, the contract that instantiates this\n * contract) may deposit, close the deposit period, and allow for either\n * withdrawal by the beneficiary, or refunds to the depositors. All interactions\n * with `RefundEscrow` will be made through the owner contract.\n */\ncontract RefundEscrow is ConditionalEscrow {\n    using Address for address payable;\n\n    enum State {\n        Active,\n        Refunding,\n        Closed\n    }\n\n    event RefundsClosed();\n    event RefundsEnabled();\n\n    State private _state;\n    address payable private immutable _beneficiary;\n\n    /**\n     * @dev Constructor.\n     * @param beneficiary_ The beneficiary of the deposits.\n     */\n    constructor(address payable beneficiary_) {\n        require(beneficiary_ != address(0), \"RefundEscrow: beneficiary is the zero address\");\n        _beneficiary = beneficiary_;\n        _state = State.Active;\n    }\n\n    /**\n     * @return The current state of the escrow.\n     */\n    function state() public view virtual returns (State) {\n        return _state;\n    }\n\n    /**\n     * @return The beneficiary of the escrow.\n     */\n    function beneficiary() public view virtual returns (address payable) {\n        return _beneficiary;\n    }\n\n    /**\n     * @dev Stores funds that may later be refunded.\n     * @param refundee The address funds will be sent to if a refund occurs.\n     */\n    function deposit(address refundee) public payable virtual override {\n        require(state() == State.Active, \"RefundEscrow: can only deposit while active\");\n        super.deposit(refundee);\n    }\n\n    /**\n     * @dev Allows for the beneficiary to withdraw their funds, rejecting\n     * further deposits.\n     */\n    function close() public virtual onlyOwner {\n        require(state() == State.Active, \"RefundEscrow: can only close while active\");\n        _state = State.Closed;\n        emit RefundsClosed();\n    }\n\n    /**\n     * @dev Allows for refunds to take place, rejecting further deposits.\n     */\n    function enableRefunds() public virtual onlyOwner {\n        require(state() == State.Active, \"RefundEscrow: can only enable refunds while active\");\n        _state = State.Refunding;\n        emit RefundsEnabled();\n    }\n\n    /**\n     * @dev Withdraws the beneficiary's funds.\n     */\n    function beneficiaryWithdraw() public virtual {\n        require(state() == State.Closed, \"RefundEscrow: beneficiary can only withdraw while closed\");\n        beneficiary().sendValue(address(this).balance);\n    }\n\n    /**\n     * @dev Returns whether refundees can withdraw their deposits (be refunded). The overridden function receives a\n     * 'payee' argument, but we ignore it here since the condition is global, not per-payee.\n     */\n    function withdrawalAllowed(address) public view override returns (bool) {\n        return state() == State.Refunding;\n    }\n}\n"
@@ -45015,7 +45015,7 @@
 							"goal()": "40193883"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"goal\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Extension of `FinalizableCrowdsale` contract that adds a funding goal, and the possibility of users getting a refund if goal is not met. Deprecated, use `RefundablePostDeliveryCrowdsale` instead. Note that if you allow tokens to be traded before the goal is met, then an attack is possible in which the attacker purchases tokens from the crowdsale and when they sees that the goal is unlikely to be met, they sell their tokens (possibly at a discount). The attacker will be refunded when the crowdsale is finalized, and the users that purchased from them will be left with worthless tokens.\",\"kind\":\"dev\",\"methods\":{\"constructor\":{\"details\":\"Constructor, creates RefundEscrow.\",\"params\":{\"inGoal\":\"Funding goal\"}},\"goal()\":{\"returns\":{\"_0\":\"minimum amount of funds to be raised in wei.\"}}},\"title\":\"RefundableCrowdsale\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"crowdsale/abstractions/refundable.sol\":\"RefundableContract\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xba43b97fba0d32eb4254f6a5a297b39a19a247082a02d6e69349e071e2946218\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fc980984badf3984b6303b377711220e067722bbd6a135b24669ff5069ef9f32\",\"dweb:/ipfs/QmPHXMSXj99XjSVM21YsY6aNtLLjLVXDbyN76J5HQYvvrz\"]},\"@openzeppelin/contracts/utils/Address.sol\":{\"keccak256\":\"0x006dd67219697fe68d7fbfdea512e7c4cb64a43565ed86171d67e844982da6fa\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2455248c8ddd9cc6a7af76a13973cddf222072427e7b0e2a7d1aff345145e931\",\"dweb:/ipfs/QmfYjnjRbWqYpuxurqveE6HtzsY1Xx323J428AKQgtBJZm\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0x75a4ee64c68dbd5f38bddd06e664a64c8271b4caa554fb6f0607dfd672bb4bf3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0c4e6cb30d3601e2f7af5af09e265508147cb275a8dcd99d6f7363645cc56867\",\"dweb:/ipfs/QmNgFkoXNWoUbAyw71rr1sKQ95Rj2GfvYiWg79xEYDn2NY\"]},\"@openzeppelin/contracts/utils/escrow/ConditionalEscrow.sol\":{\"keccak256\":\"0xf71d228abc2df1a5020ba208b237718e22cad6b3532f5e8f1021f4f15068e290\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e42465b2c37a5d9286678ad167ed75691cb7bd2f6abcb677e7820ac58263a723\",\"dweb:/ipfs/QmdxVmnFC6ELiJLcQauqJxR353hjT2eNQ5ELHv1j46KeHi\"]},\"@openzeppelin/contracts/utils/escrow/Escrow.sol\":{\"keccak256\":\"0xabdff382f93edb8bd94b227798fc0daf64abe891403e1e525f5870c2cae8bf65\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://402701e1bf7c6314463211809668b51986f27695b5d552dcd51aed0730c66680\",\"dweb:/ipfs/QmRLv8Tr9ZV7QABCSr2ri4N1EsKGebFC87ti9794GMGLiL\"]},\"@openzeppelin/contracts/utils/escrow/RefundEscrow.sol\":{\"keccak256\":\"0xcfcaa88a5cbc8d21c14550a6051708a03e902ded254fc0b0bbd44500386d3860\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6d7707cbf9bbbf30893035c3c18d74edb42ab87b2ac95c61c62d71beff18a532\",\"dweb:/ipfs/QmYQrGDB3PoTMFU54FNC5EPToQo7uzwmXhEYgVnjciYnV5\"]},\"@openzeppelin/contracts/utils/math/SafeMath.sol\":{\"keccak256\":\"0x58b21219689909c4f8339af00813760337f7e2e7f169a97fe49e2896dcfb3b9a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ef8e012e946dec20e59f2d4446f4b44bb098f3fa8bac103b1b5112fff777447b\",\"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ\"]},\"crowdsale/abstractions/refundable.sol\":{\"keccak256\":\"0x344c6f5f01f8a424ad3e730dbd3fbcdbe9239f14e33688b474c7a616bfaf62dd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://253ccbb5218470f39973783fd049655d947fdef4810b8063fb318c04392d2e2f\",\"dweb:/ipfs/QmRfQNCRL7JpcvcqZkTjTYeVPFA4ZgQ44dGQssJrvT7QZr\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"goal\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Extension of `FinalizableCrowdsale` contract that adds a funding goal, and the possibility of users getting a refund if goal is not met. Deprecated, use `RefundablePostDeliveryCrowdsale` instead. Note that if you allow tokens to be traded before the goal is met, then an attack is possible in which the attacker purchases tokens from the crowdsale and when they sees that the goal is unlikely to be met, they sell their tokens (possibly at a discount). The attacker will be refunded when the crowdsale is finalized, and the users that purchased from them will be left with worthless tokens.\",\"kind\":\"dev\",\"methods\":{\"constructor\":{\"details\":\"Constructor, creates RefundEscrow.\",\"params\":{\"inGoal\":\"Funding goal\"}},\"goal()\":{\"returns\":{\"_0\":\"minimum amount of funds to be raised in wei.\"}}},\"title\":\"RefundableCrowdsale\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"crowdsale/abstractions/refundable.sol\":\"RefundableContract\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xba43b97fba0d32eb4254f6a5a297b39a19a247082a02d6e69349e071e2946218\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fc980984badf3984b6303b377711220e067722bbd6a135b24669ff5069ef9f32\",\"dweb:/ipfs/QmPHXMSXj99XjSVM21YsY6aNtLLjLVXDbyN76J5HQYvvrz\"]},\"@openzeppelin/contracts/utils/Address.sol\":{\"keccak256\":\"0x006dd67219697fe68d7fbfdea512e7c4cb64a43565ed86171d67e844982da6fa\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2455248c8ddd9cc6a7af76a13973cddf222072427e7b0e2a7d1aff345145e931\",\"dweb:/ipfs/QmfYjnjRbWqYpuxurqveE6HtzsY1Xx323J428AKQgtBJZm\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0x75a4ee64c68dbd5f38bddd06e664a64c8271b4caa554fb6f0607dfd672bb4bf3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0c4e6cb30d3601e2f7af5af09e265508147cb275a8dcd99d6f7363645cc56867\",\"dweb:/ipfs/QmNgFkoXNWoUbAyw71rr1sKQ95Rj2GfvYiWg79xEYDn2NY\"]},\"@openzeppelin/contracts/utils/escrow/ConditionalEscrow.sol\":{\"keccak256\":\"0xf71d228abc2df1a5020ba208b237718e22cad6b3532f5e8f1021f4f15068e290\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e42465b2c37a5d9286678ad167ed75691cb7bd2f6abcb677e7820ac58263a723\",\"dweb:/ipfs/QmdxVmnFC6ELiJLcQauqJxR353hjT2eNQ5ELHv1j46KeHi\"]},\"@openzeppelin/contracts/utils/escrow/Escrow.sol\":{\"keccak256\":\"0xabdff382f93edb8bd94b227798fc0daf64abe891403e1e525f5870c2cae8bf65\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://402701e1bf7c6314463211809668b51986f27695b5d552dcd51aed0730c66680\",\"dweb:/ipfs/QmRLv8Tr9ZV7QABCSr2ri4N1EsKGebFC87ti9794GMGLiL\"]},\"@openzeppelin/contracts/utils/escrow/RefundEscrow.sol\":{\"keccak256\":\"0xcfcaa88a5cbc8d21c14550a6051708a03e902ded254fc0b0bbd44500386d3860\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6d7707cbf9bbbf30893035c3c18d74edb42ab87b2ac95c61c62d71beff18a532\",\"dweb:/ipfs/QmYQrGDB3PoTMFU54FNC5EPToQo7uzwmXhEYgVnjciYnV5\"]},\"@openzeppelin/contracts/utils/math/SafeMath.sol\":{\"keccak256\":\"0x58b21219689909c4f8339af00813760337f7e2e7f169a97fe49e2896dcfb3b9a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ef8e012e946dec20e59f2d4446f4b44bb098f3fa8bac103b1b5112fff777447b\",\"dweb:/ipfs/QmVTooKWcLkJ9W68yNX4MgdrbAKiAXwuRN9A7f4NkdcdtQ\"]},\"crowdsale/abstractions/refundable.sol\":{\"keccak256\":\"0x7ef134dcbf3bf9e35cf184b88cd8f487482cf6247b80617f0d59cf517cb949fc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f03196ab2bf6d9b40d6b592ba994977956447a47818a7886428698d71c8de988\",\"dweb:/ipfs/QmPwE4in6asu2B5VrBXP7bQaSxKYwrjrSNRgN1uAtmMMYz\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [
 							{
@@ -58529,13 +58529,13 @@
 							774
 						],
 						"RefundableContract": [
-							1176
+							1190
 						],
 						"SafeMath": [
 							1086
 						]
 					},
-					"id": 1177,
+					"id": 1191,
 					"license": "MIT",
 					"nodeType": "SourceUnit",
 					"nodes": [
@@ -58556,7 +58556,7 @@
 							"id": 1089,
 							"nameLocation": "-1:-1:-1",
 							"nodeType": "ImportDirective",
-							"scope": 1177,
+							"scope": 1191,
 							"sourceUnit": 465,
 							"src": "62:51:7",
 							"symbolAliases": [],
@@ -58568,7 +58568,7 @@
 							"id": 1090,
 							"nameLocation": "-1:-1:-1",
 							"nodeType": "ImportDirective",
-							"scope": 1177,
+							"scope": 1191,
 							"sourceUnit": 1087,
 							"src": "115:57:7",
 							"symbolAliases": [],
@@ -58580,7 +58580,7 @@
 							"id": 1091,
 							"nameLocation": "-1:-1:-1",
 							"nodeType": "ImportDirective",
-							"scope": 1177,
+							"scope": 1191,
 							"sourceUnit": 775,
 							"src": "174:63:7",
 							"symbolAliases": [],
@@ -58617,9 +58617,9 @@
 								"text": " @title RefundableCrowdsale\n @dev Extension of `FinalizableCrowdsale` contract that adds a funding goal, and the possibility of users\n getting a refund if goal is not met.\n Deprecated, use `RefundablePostDeliveryCrowdsale` instead. Note that if you allow tokens to be traded before the goal\n is met, then an attack is possible in which the attacker purchases tokens from the crowdsale and when they sees that\n the goal is unlikely to be met, they sell their tokens (possibly at a discount). The attacker will be refunded when\n the crowdsale is finalized, and the users that purchased from them will be left with worthless tokens."
 							},
 							"fullyImplemented": true,
-							"id": 1176,
+							"id": 1190,
 							"linearizedBaseContracts": [
-								1176,
+								1190,
 								464
 							],
 							"name": "RefundableContract",
@@ -58659,7 +58659,7 @@
 									"name": "_goal",
 									"nameLocation": "1065:5:7",
 									"nodeType": "VariableDeclaration",
-									"scope": 1176,
+									"scope": 1190,
 									"src": "1049:21:7",
 									"stateVariable": true,
 									"storageLocation": "default",
@@ -58686,7 +58686,7 @@
 									"name": "_escrow",
 									"nameLocation": "1168:7:7",
 									"nodeType": "VariableDeclaration",
-									"scope": 1176,
+									"scope": 1190,
 									"src": "1147:28:7",
 									"stateVariable": true,
 									"storageLocation": "default",
@@ -59060,7 +59060,7 @@
 										"parameters": [],
 										"src": "1346:0:7"
 									},
-									"scope": 1176,
+									"scope": 1190,
 									"src": "1285:205:7",
 									"stateMutability": "nonpayable",
 									"virtual": false,
@@ -59146,7 +59146,7 @@
 										],
 										"src": "1613:9:7"
 									},
-									"scope": 1176,
+									"scope": 1190,
 									"src": "1577:77:7",
 									"stateMutability": "view",
 									"virtual": false,
@@ -59156,7 +59156,7 @@
 									"body": {
 										"id": 1151,
 										"nodeType": "Block",
-										"src": "1879:45:7",
+										"src": "1871:45:7",
 										"statements": [
 											{
 												"expression": {
@@ -59167,7 +59167,7 @@
 															"nodeType": "Identifier",
 															"overloadedDeclarations": [],
 															"referencedDeclaration": 1142,
-															"src": "1907:8:7",
+															"src": "1899:8:7",
 															"typeDescriptions": {
 																"typeIdentifier": "t_address_payable",
 																"typeString": "address payable"
@@ -59187,7 +59187,7 @@
 															"nodeType": "Identifier",
 															"overloadedDeclarations": [],
 															"referencedDeclaration": 1102,
-															"src": "1890:7:7",
+															"src": "1882:7:7",
 															"typeDescriptions": {
 																"typeIdentifier": "t_contract$_RefundEscrow_$774",
 																"typeString": "contract RefundEscrow"
@@ -59198,11 +59198,11 @@
 														"isLValue": false,
 														"isPure": false,
 														"lValueRequested": false,
-														"memberLocation": "1898:8:7",
+														"memberLocation": "1890:8:7",
 														"memberName": "withdraw",
 														"nodeType": "MemberAccess",
 														"referencedDeclaration": 498,
-														"src": "1890:16:7",
+														"src": "1882:16:7",
 														"typeDescriptions": {
 															"typeIdentifier": "t_function_external_nonpayable$_t_address_payable_$returns$__$",
 															"typeString": "function (address payable) external"
@@ -59217,7 +59217,7 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "1890:26:7",
+													"src": "1882:26:7",
 													"tryCall": false,
 													"typeDescriptions": {
 														"typeIdentifier": "t_tuple$__$",
@@ -59226,7 +59226,7 @@
 												},
 												"id": 1150,
 												"nodeType": "ExpressionStatement",
-												"src": "1890:26:7"
+												"src": "1882:26:7"
 											}
 										]
 									},
@@ -59282,19 +59282,19 @@
 										"id": 1144,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "1879:0:7"
+										"src": "1871:0:7"
 									},
-									"scope": 1176,
-									"src": "1814:110:7",
+									"scope": 1190,
+									"src": "1814:102:7",
 									"stateMutability": "nonpayable",
-									"virtual": true,
+									"virtual": false,
 									"visibility": "internal"
 								},
 								{
 									"body": {
 										"id": 1165,
 										"nodeType": "Block",
-										"src": "1970:74:7",
+										"src": "1962:74:7",
 										"statements": [
 											{
 												"expression": {
@@ -59307,7 +59307,7 @@
 															"nodeType": "Identifier",
 															"overloadedDeclarations": [],
 															"referencedDeclaration": 1102,
-															"src": "1981:7:7",
+															"src": "1973:7:7",
 															"typeDescriptions": {
 																"typeIdentifier": "t_contract$_RefundEscrow_$774",
 																"typeString": "contract RefundEscrow"
@@ -59318,11 +59318,11 @@
 														"isLValue": false,
 														"isPure": false,
 														"lValueRequested": false,
-														"memberLocation": "1989:5:7",
+														"memberLocation": "1981:5:7",
 														"memberName": "close",
 														"nodeType": "MemberAccess",
 														"referencedDeclaration": 709,
-														"src": "1981:13:7",
+														"src": "1973:13:7",
 														"typeDescriptions": {
 															"typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
 															"typeString": "function () external"
@@ -59337,7 +59337,7 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "1981:15:7",
+													"src": "1973:15:7",
 													"tryCall": false,
 													"typeDescriptions": {
 														"typeIdentifier": "t_tuple$__$",
@@ -59346,7 +59346,7 @@
 												},
 												"id": 1159,
 												"nodeType": "ExpressionStatement",
-												"src": "1981:15:7"
+												"src": "1973:15:7"
 											},
 											{
 												"expression": {
@@ -59359,7 +59359,7 @@
 															"nodeType": "Identifier",
 															"overloadedDeclarations": [],
 															"referencedDeclaration": 1102,
-															"src": "2007:7:7",
+															"src": "1999:7:7",
 															"typeDescriptions": {
 																"typeIdentifier": "t_contract$_RefundEscrow_$774",
 																"typeString": "contract RefundEscrow"
@@ -59370,11 +59370,11 @@
 														"isLValue": false,
 														"isPure": false,
 														"lValueRequested": false,
-														"memberLocation": "2015:19:7",
+														"memberLocation": "2007:19:7",
 														"memberName": "beneficiaryWithdraw",
 														"nodeType": "MemberAccess",
 														"referencedDeclaration": 757,
-														"src": "2007:27:7",
+														"src": "1999:27:7",
 														"typeDescriptions": {
 															"typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
 															"typeString": "function () external"
@@ -59389,7 +59389,7 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "2007:29:7",
+													"src": "1999:29:7",
 													"tryCall": false,
 													"typeDescriptions": {
 														"typeIdentifier": "t_tuple$__$",
@@ -59398,7 +59398,7 @@
 												},
 												"id": 1164,
 												"nodeType": "ExpressionStatement",
-												"src": "2007:29:7"
+												"src": "1999:29:7"
 											}
 										]
 									},
@@ -59407,22 +59407,22 @@
 									"kind": "function",
 									"modifiers": [],
 									"name": "_closeAndWithdraw",
-									"nameLocation": "1941:17:7",
+									"nameLocation": "1933:17:7",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
 										"id": 1153,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "1958:2:7"
+										"src": "1950:2:7"
 									},
 									"returnParameters": {
 										"id": 1154,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "1970:0:7"
+										"src": "1962:0:7"
 									},
-									"scope": 1176,
-									"src": "1932:112:7",
+									"scope": 1190,
+									"src": "1924:112:7",
 									"stateMutability": "nonpayable",
 									"virtual": false,
 									"visibility": "internal"
@@ -59431,7 +59431,7 @@
 									"body": {
 										"id": 1174,
 										"nodeType": "Block",
-										"src": "2088:42:7",
+										"src": "2080:42:7",
 										"statements": [
 											{
 												"expression": {
@@ -59444,7 +59444,7 @@
 															"nodeType": "Identifier",
 															"overloadedDeclarations": [],
 															"referencedDeclaration": 1102,
-															"src": "2099:7:7",
+															"src": "2091:7:7",
 															"typeDescriptions": {
 																"typeIdentifier": "t_contract$_RefundEscrow_$774",
 																"typeString": "contract RefundEscrow"
@@ -59455,11 +59455,11 @@
 														"isLValue": false,
 														"isPure": false,
 														"lValueRequested": false,
-														"memberLocation": "2107:13:7",
+														"memberLocation": "2099:13:7",
 														"memberName": "enableRefunds",
 														"nodeType": "MemberAccess",
 														"referencedDeclaration": 733,
-														"src": "2099:21:7",
+														"src": "2091:21:7",
 														"typeDescriptions": {
 															"typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
 															"typeString": "function () external"
@@ -59474,7 +59474,7 @@
 													"nameLocations": [],
 													"names": [],
 													"nodeType": "FunctionCall",
-													"src": "2099:23:7",
+													"src": "2091:23:7",
 													"tryCall": false,
 													"typeDescriptions": {
 														"typeIdentifier": "t_tuple$__$",
@@ -59483,7 +59483,7 @@
 												},
 												"id": 1173,
 												"nodeType": "ExpressionStatement",
-												"src": "2099:23:7"
+												"src": "2091:23:7"
 											}
 										]
 									},
@@ -59492,34 +59492,207 @@
 									"kind": "function",
 									"modifiers": [],
 									"name": "_enableRefunds",
-									"nameLocation": "2061:14:7",
+									"nameLocation": "2053:14:7",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
 										"id": 1167,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "2075:2:7"
+										"src": "2067:2:7"
 									},
 									"returnParameters": {
 										"id": 1168,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "2088:0:7"
+										"src": "2080:0:7"
 									},
-									"scope": 1176,
-									"src": "2052:78:7",
+									"scope": 1190,
+									"src": "2044:78:7",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "internal"
+								},
+								{
+									"body": {
+										"id": 1188,
+										"nodeType": "Block",
+										"src": "2167:66:7",
+										"statements": [
+											{
+												"expression": {
+													"arguments": [
+														{
+															"arguments": [],
+															"expression": {
+																"argumentTypes": [],
+																"id": 1184,
+																"name": "_msgSender",
+																"nodeType": "Identifier",
+																"overloadedDeclarations": [],
+																"referencedDeclaration": 454,
+																"src": "2212:10:7",
+																"typeDescriptions": {
+																	"typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+																	"typeString": "function () view returns (address)"
+																}
+															},
+															"id": 1185,
+															"isConstant": false,
+															"isLValue": false,
+															"isPure": false,
+															"kind": "functionCall",
+															"lValueRequested": false,
+															"nameLocations": [],
+															"names": [],
+															"nodeType": "FunctionCall",
+															"src": "2212:12:7",
+															"tryCall": false,
+															"typeDescriptions": {
+																"typeIdentifier": "t_address",
+																"typeString": "address"
+															}
+														}
+													],
+													"expression": {
+														"argumentTypes": [
+															{
+																"typeIdentifier": "t_address",
+																"typeString": "address"
+															}
+														],
+														"expression": {
+															"argumentTypes": [
+																{
+																	"typeIdentifier": "t_address",
+																	"typeString": "address"
+																}
+															],
+															"expression": {
+																"id": 1178,
+																"name": "_escrow",
+																"nodeType": "Identifier",
+																"overloadedDeclarations": [],
+																"referencedDeclaration": 1102,
+																"src": "2178:7:7",
+																"typeDescriptions": {
+																	"typeIdentifier": "t_contract$_RefundEscrow_$774",
+																	"typeString": "contract RefundEscrow"
+																}
+															},
+															"id": 1180,
+															"isConstant": false,
+															"isLValue": false,
+															"isPure": false,
+															"lValueRequested": false,
+															"memberLocation": "2186:7:7",
+															"memberName": "deposit",
+															"nodeType": "MemberAccess",
+															"referencedDeclaration": 685,
+															"src": "2178:15:7",
+															"typeDescriptions": {
+																"typeIdentifier": "t_function_external_payable$_t_address_$returns$__$",
+																"typeString": "function (address) payable external"
+															}
+														},
+														"id": 1183,
+														"isConstant": false,
+														"isLValue": false,
+														"isPure": false,
+														"lValueRequested": false,
+														"names": [
+															"value"
+														],
+														"nodeType": "FunctionCallOptions",
+														"options": [
+															{
+																"expression": {
+																	"id": 1181,
+																	"name": "msg",
+																	"nodeType": "Identifier",
+																	"overloadedDeclarations": [],
+																	"referencedDeclaration": 4294967281,
+																	"src": "2201:3:7",
+																	"typeDescriptions": {
+																		"typeIdentifier": "t_magic_message",
+																		"typeString": "msg"
+																	}
+																},
+																"id": 1182,
+																"isConstant": false,
+																"isLValue": false,
+																"isPure": false,
+																"lValueRequested": false,
+																"memberLocation": "2205:5:7",
+																"memberName": "value",
+																"nodeType": "MemberAccess",
+																"src": "2201:9:7",
+																"typeDescriptions": {
+																	"typeIdentifier": "t_uint256",
+																	"typeString": "uint256"
+																}
+															}
+														],
+														"src": "2178:33:7",
+														"typeDescriptions": {
+															"typeIdentifier": "t_function_external_payable$_t_address_$returns$__$value",
+															"typeString": "function (address) payable external"
+														}
+													},
+													"id": 1186,
+													"isConstant": false,
+													"isLValue": false,
+													"isPure": false,
+													"kind": "functionCall",
+													"lValueRequested": false,
+													"nameLocations": [],
+													"names": [],
+													"nodeType": "FunctionCall",
+													"src": "2178:47:7",
+													"tryCall": false,
+													"typeDescriptions": {
+														"typeIdentifier": "t_tuple$__$",
+														"typeString": "tuple()"
+													}
+												},
+												"id": 1187,
+												"nodeType": "ExpressionStatement",
+												"src": "2178:47:7"
+											}
+										]
+									},
+									"id": 1189,
+									"implemented": true,
+									"kind": "function",
+									"modifiers": [],
+									"name": "_depositInEscrow",
+									"nameLocation": "2139:16:7",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 1176,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "2155:2:7"
+									},
+									"returnParameters": {
+										"id": 1177,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "2167:0:7"
+									},
+									"scope": 1190,
+									"src": "2130:103:7",
 									"stateMutability": "nonpayable",
 									"virtual": false,
 									"visibility": "internal"
 								}
 							],
-							"scope": 1177,
-							"src": "906:1227:7",
+							"scope": 1191,
+							"src": "906:1330:7",
 							"usedErrors": [],
 							"usedEvents": []
 						}
 					],
-					"src": "33:2100:7"
+					"src": "33:2203:7"
 				},
 				"id": 7
 			}

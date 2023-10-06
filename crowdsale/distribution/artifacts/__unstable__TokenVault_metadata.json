@@ -187,11 +187,11 @@
 			]
 		},
 		"crowdsale/distribution/postDeliveryCrowdsale.sol": {
-			"keccak256": "0x914577a1b8c2bb9ac291302e3f03dd7e8bee391e84bfc83d3028a833144d9c76",
+			"keccak256": "0x29bcccee7b336019ce968523879a5087edb9ecbb986b9e5dcd2d6b15aaf78456",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3241b820dfc2b1e5cd71d3d83d7d870b79d7ea35831d1c8606e2abada4bddef5",
-				"dweb:/ipfs/QmXuoXjF84XPcd2ptbY3qqChensbqzVVKnAUr6uBHvZj7u"
+				"bzz-raw://3fae94e1018f91320abe7ae394178d65d8729fd82448e3873d8d9384dc696169",
+				"dweb:/ipfs/QmfLqNCjBdZSFjHPfYSA1ibvnii1Qw8hn1z7SL6PUcigd9"
 			]
 		},
 		"crowdsale/secondary.sol": {

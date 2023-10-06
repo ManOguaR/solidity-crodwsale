@@ -117,11 +117,11 @@
 			]
 		},
 		"crowdsale/abstractions/refundable.sol": {
-			"keccak256": "0x344c6f5f01f8a424ad3e730dbd3fbcdbe9239f14e33688b474c7a616bfaf62dd",
+			"keccak256": "0x7ef134dcbf3bf9e35cf184b88cd8f487482cf6247b80617f0d59cf517cb949fc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://253ccbb5218470f39973783fd049655d947fdef4810b8063fb318c04392d2e2f",
-				"dweb:/ipfs/QmRfQNCRL7JpcvcqZkTjTYeVPFA4ZgQ44dGQssJrvT7QZr"
+				"bzz-raw://f03196ab2bf6d9b40d6b592ba994977956447a47818a7886428698d71c8de988",
+				"dweb:/ipfs/QmPwE4in6asu2B5VrBXP7bQaSxKYwrjrSNRgN1uAtmMMYz"
 			]
 		}
 	},
