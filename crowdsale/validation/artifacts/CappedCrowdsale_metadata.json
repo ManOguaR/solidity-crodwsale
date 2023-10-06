@@ -6,32 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "inCap",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "inRate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address payable",
-						"name": "inWallet",
-						"type": "address"
-					},
-					{
-						"internalType": "contract IERC20",
-						"name": "inToken",
-						"type": "address"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
 				"anonymous": false,
 				"inputs": [
 					{
@@ -318,11 +292,11 @@
 			]
 		},
 		"crowdsale/validation/cappedCrowdsale.sol": {
-			"keccak256": "0xfe1c00f4092dfe81cb6ba65414a1ed440f1fd63db1e90dbca68d8a34280399ab",
+			"keccak256": "0x8cc9fc441ec23a6bf1b31d48f5f7552da2be3983d660d0f36b268521e6fcebcc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://610b3d437d28c69bda0f4e8b38d2dfea0b31c708ff6d0e8439c6ee62dbc7abd2",
-				"dweb:/ipfs/QmR1fW6DE9kUUvJy8fRxq31sQaXsS5RFNhL4BKttn583FV"
+				"bzz-raw://4286bc7e8e79d3ec47564473b8f8bce09d9e701d95ba98d5680193badcc58c62",
+				"dweb:/ipfs/QmSXGbWSKNETVzwviBG8mgyfEoebSEeoAynWXgDy1X9GuN"
 			]
 		}
 	},

@@ -6,42 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "inGoal",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "inOpeningTime",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "inClosingTime",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "inRate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address payable",
-						"name": "inWallet",
-						"type": "address"
-					},
-					{
-						"internalType": "contract IERC20",
-						"name": "inToken",
-						"type": "address"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
 				"anonymous": false,
 				"inputs": [],
 				"name": "ContractFinalized",
@@ -572,19 +536,19 @@
 			]
 		},
 		"crowdsale/distribution/postDeliveryCrowdsale.sol": {
-			"keccak256": "0x29bcccee7b336019ce968523879a5087edb9ecbb986b9e5dcd2d6b15aaf78456",
+			"keccak256": "0x62c4fcdfd639990c95ad0cf1ad4a3ccf9a610b389a094d59a9ffe0285a681cdb",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3fae94e1018f91320abe7ae394178d65d8729fd82448e3873d8d9384dc696169",
-				"dweb:/ipfs/QmfLqNCjBdZSFjHPfYSA1ibvnii1Qw8hn1z7SL6PUcigd9"
+				"bzz-raw://94b903e4e994ad29fc74fb89ff199fc98434e01a1b14b9deab7d76fb1b231d42",
+				"dweb:/ipfs/QmbxH17z5mKSNgzHQNwgXyzaLVQUC3aACW4iaNwFCC8Btm"
 			]
 		},
 		"crowdsale/distribution/refundablePostDeliveryCrowdsale.sol": {
-			"keccak256": "0x344aa47784dedd330d99ec86c15f20ceee4e3a41deb6754809ffae70e406cf38",
+			"keccak256": "0x7d5aa05c0456fd2fe617e71845a73116285d233e75cac0a37fc08c84c39eab38",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://dc25265be622b944e69eefeff39abb93335f51d8764a2a57e24a461b3f7b7080",
-				"dweb:/ipfs/Qmbm3qznt37NWpnj3rW7gVF3ZW9Qs4weXU42NdzBSqWdxZ"
+				"bzz-raw://acbb91184c3cdc83f19810b5c8a0becf28b2c3092d01875e03a1c7e3990db8a9",
+				"dweb:/ipfs/QmSeWHdpwkDBwM1FnvJyqj5F8oxXVPGAw8EGjTwqXacofD"
 			]
 		},
 		"crowdsale/secondary.sol": {
@@ -596,11 +560,11 @@
 			]
 		},
 		"crowdsale/validation/timedCrowdsale.sol": {
-			"keccak256": "0x82574104af0173f820a2ab81c4e5202e5868a0d80f98c6f999c3ce9e3fecfa7b",
+			"keccak256": "0x175f2234e9a0ea1bb28e9f79968b489b180559cdbac00cc5353c70ce1995ea44",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9966d917f5319a2663fbf998f6acc83be0b0445dd37bcf2b0f6f4c582c59a5fd",
-				"dweb:/ipfs/Qmc1zEZN3kRQF7EFwCUWAhg8bkGN1m9gPsEpUpvQZnU4bq"
+				"bzz-raw://28428ac576879268e5b2798b6bc5d841765a75aced5baca4b256a7c8b3a7af1d",
+				"dweb:/ipfs/QmU5crGLqDoAXaBuTTQSHn1PMwijeSL6Jw9s5ZQenPM5o4"
 			]
 		}
 	},

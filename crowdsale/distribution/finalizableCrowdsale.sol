@@ -11,7 +11,7 @@ import "crowdsale/abstractions/finalizable.sol";
  * @dev Extension of TimedCrowdsale with a one-off finalization action, where one
  * can do extra work after finishing.
  */
-contract FinalizableCrowdsale is TimedCrowdsale, FinalizableContract {
+abstract contract FinalizableCrowdsale is TimedCrowdsale, FinalizableContract {
     using SafeMath for uint256;
 
     /**

@@ -9,7 +9,7 @@ import "crowdsale/crowdsale.sol";
  * @title PausableCrowdsale
  * @dev Extension of Crowdsale contract where purchases can be paused and unpaused by the pauser role.
  */
-contract PausableCrowdsale is Crowdsale, Pausable {
+abstract contract PausableCrowdsale is Crowdsale, Pausable {
     constructor(uint256 inRate, address payable inWallet, IERC20 inToken) 
     Crowdsale(inRate, inWallet, inToken) {
     }

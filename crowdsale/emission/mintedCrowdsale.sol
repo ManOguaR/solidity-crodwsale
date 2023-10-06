@@ -11,11 +11,11 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
  * @dev Extension of Crowdsale contract whose tokens are minted in each purchase.
  * Token ownership should be transferred to MintedCrowdsale for minting.
  */
-contract MintedCrowdsale is Crowdsale, AccessControl {
+abstract contract MintedCrowdsale is Crowdsale, AccessControl {
     constructor(uint256 inRate, address payable inWallet, ERC20 inToken)
         Crowdsale(inRate, inWallet, inToken)
     {
-        
+
     }
     
     /**

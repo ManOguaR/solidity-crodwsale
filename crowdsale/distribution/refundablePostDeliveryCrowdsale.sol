@@ -13,7 +13,7 @@ import "crowdsale/distribution/postDeliveryCrowdsale.sol";
  * once the crowdsale has closed and the goal met, preventing refunds to be issued
  * to token holders.
  */
-contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, RefundableContract, FinalizableContract {
+abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, RefundableContract, FinalizableContract {
     constructor(
         uint256 inGoal,
         uint256 inOpeningTime,

@@ -6,25 +6,79 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "inRate",
-						"type": "uint256"
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
 					},
 					{
-						"internalType": "address payable",
-						"name": "inWallet",
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "previousAdminRole",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "newAdminRole",
+						"type": "bytes32"
+					}
+				],
+				"name": "RoleAdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
 						"type": "address"
 					},
 					{
-						"internalType": "contract ERC20",
-						"name": "inToken",
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
 						"type": "address"
 					}
 				],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
 			},
 			{
 				"anonymous": false,
@@ -62,6 +116,19 @@
 				"type": "fallback"
 			},
 			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -75,6 +142,67 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "rate",
 				"outputs": [
@@ -82,6 +210,61 @@
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceId",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -134,6 +317,15 @@
 		"devdoc": {
 			"details": "Extension of Crowdsale contract whose tokens are minted in each purchase. Token ownership should be transferred to MintedCrowdsale for minting.",
 			"events": {
+				"RoleAdminChanged(bytes32,bytes32,bytes32)": {
+					"details": "Emitted when `newAdminRole` is set as ``role``'s admin role, replacing `previousAdminRole` `DEFAULT_ADMIN_ROLE` is the starting admin for all roles, despite {RoleAdminChanged} not being emitted signaling this. _Available since v3.1._"
+				},
+				"RoleGranted(bytes32,address,address)": {
+					"details": "Emitted when `account` is granted `role`. `sender` is the account that originated the contract call, an admin role bearer except when using {AccessControl-_setupRole}."
+				},
+				"RoleRevoked(bytes32,address,address)": {
+					"details": "Emitted when `account` is revoked `role`. `sender` is the account that originated the contract call:   - if using `revokeRole`, it is the admin role bearer   - if using `renounceRole`, it is the role bearer (i.e. `account`)"
+				},
 				"TokensPurchased(address,address,uint256,uint256)": {
 					"params": {
 						"amount": "amount of tokens purchased",
@@ -151,10 +343,28 @@
 						"beneficiary": "Recipient of the token purchase"
 					}
 				},
+				"getRoleAdmin(bytes32)": {
+					"details": "Returns the admin role that controls `role`. See {grantRole} and {revokeRole}. To change a role's admin, use {_setRoleAdmin}."
+				},
+				"grantRole(bytes32,address)": {
+					"details": "Grants `role` to `account`. If `account` had not been already granted `role`, emits a {RoleGranted} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleGranted} event."
+				},
+				"hasRole(bytes32,address)": {
+					"details": "Returns `true` if `account` has been granted `role`."
+				},
 				"rate()": {
 					"returns": {
 						"_0": "the number of token units a buyer gets per wei."
 					}
+				},
+				"renounceRole(bytes32,address)": {
+					"details": "Revokes `role` from the calling account. Roles are often managed via {grantRole} and {revokeRole}: this function's purpose is to provide a mechanism for accounts to lose their privileges if they are compromised (such as when a trusted device is misplaced). If the calling account had been revoked `role`, emits a {RoleRevoked} event. Requirements: - the caller must be `account`. May emit a {RoleRevoked} event."
+				},
+				"revokeRole(bytes32,address)": {
+					"details": "Revokes `role` from `account`. If `account` had been granted `role`, emits a {RoleRevoked} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleRevoked} event."
+				},
+				"supportsInterface(bytes4)": {
+					"details": "See {IERC165-supportsInterface}."
 				},
 				"token()": {
 					"returns": {
@@ -331,11 +541,11 @@
 			]
 		},
 		"crowdsale/abstractions/mintable.sol": {
-			"keccak256": "0xd25c9b5c9d14697b945b91ec1689237c2983dfc09c35b37d8ca20c87495acaf6",
+			"keccak256": "0xc0c30c5da479503e25d4ac38847bb246a09df959970ad6fd99ea425c7b45a5fb",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7c6b9ae5ab90e40b55855273b4f04248a9faac7d6be997140d2fc89f808e8b9d",
-				"dweb:/ipfs/QmbgCZf7t4sHEh6XjDFV7z6gCuLZK5DTMW51YFtvP34rn9"
+				"bzz-raw://9eb722c64d4f703d83479ad50a2273d302e987a9ddec6a1533abde5dbd06316b",
+				"dweb:/ipfs/QmRbyggRuziPMBA98QAKrjTjgsiDbjqmvhYPPEPkVGcixc"
 			]
 		},
 		"crowdsale/crowdsale.sol": {
@@ -347,11 +557,11 @@
 			]
 		},
 		"crowdsale/emission/mintedCrowdsale.sol": {
-			"keccak256": "0x603663b5949693c6692f1902239228f8dc0e1c512327249e9f508ecb92023cf3",
+			"keccak256": "0x45832a4591928bb3352bffdf173e83b1e9454df515ac454931ebfc97df57c514",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7760a42961ddb47f004686c4449e1f1e3d204be66b60dc1015003459dbf37ad5",
-				"dweb:/ipfs/QmdsbAw1KS8B8grdEFE8caZT8hiTVoD9UxUmHbLHUU9RYy"
+				"bzz-raw://c4d429692b3ecde99e1232c2b2e33c3bdaf5502159aba8b3a59468f133e9d795",
+				"dweb:/ipfs/QmSy6JvNoTUwBZRzhWKDRSyPsgam8TtdCXee7oVtUH6aBM"
 			]
 		}
 	},

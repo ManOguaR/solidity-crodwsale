@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  * @title PostDeliveryCrowdsale
  * @dev Crowdsale that locks tokens from withdrawal until it ends.
  */
-contract PostDeliveryCrowdsale is TimedCrowdsale {
+abstract contract PostDeliveryCrowdsale is TimedCrowdsale {
     using SafeMath for uint256;
 
     mapping(address => uint256) private _balances;

@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
  * Note that what should be provided to the constructor is the initial and final _rates_, that is,
  * the amount of tokens per wei contributed. Thus, the initial rate must be greater than the final rate.
  */
-contract IncreasingPriceCrowdsale is TimedCrowdsale {
+abstract contract IncreasingPriceCrowdsale is TimedCrowdsale {
     using SafeMath for uint256;
 
     uint256 private _initialRate;

@@ -6,42 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "inInitialRate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "inFinalRate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "inOpeningTime",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "inClosingTime",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address payable",
-						"name": "inWallet",
-						"type": "address"
-					},
-					{
-						"internalType": "contract IERC20",
-						"name": "inToken",
-						"type": "address"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
 				"anonymous": false,
 				"inputs": [
 					{
@@ -439,19 +403,19 @@
 			]
 		},
 		"crowdsale/price/increasingPriceCrowdsale.sol": {
-			"keccak256": "0x31f4731c988714e705722c9db7417f956f8c4ba638281b301384455ab95ed1cc",
+			"keccak256": "0xaa2cbc66fdd4dbe83761dc893dc8a454743900c9231c9af2e900c9e2429a16a3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0d023f41d8feecae6b610841a54108bc48dad765f6f653115581a56a9633216d",
-				"dweb:/ipfs/QmfTTcVoSUFsr8BWpd6zV1Agrtobo5aW8m8miBrdicPHsH"
+				"bzz-raw://82f082d6fe9416708876c8974421b12ba8638e35e5d43abc348fb70babd9481d",
+				"dweb:/ipfs/Qmbm4E8jx8NL2ppkXhBnHJZdUZjomQExPNcHGMBxECzHRD"
 			]
 		},
 		"crowdsale/validation/timedCrowdsale.sol": {
-			"keccak256": "0x82574104af0173f820a2ab81c4e5202e5868a0d80f98c6f999c3ce9e3fecfa7b",
+			"keccak256": "0x175f2234e9a0ea1bb28e9f79968b489b180559cdbac00cc5353c70ce1995ea44",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9966d917f5319a2663fbf998f6acc83be0b0445dd37bcf2b0f6f4c582c59a5fd",
-				"dweb:/ipfs/Qmc1zEZN3kRQF7EFwCUWAhg8bkGN1m9gPsEpUpvQZnU4bq"
+				"bzz-raw://28428ac576879268e5b2798b6bc5d841765a75aced5baca4b256a7c8b3a7af1d",
+				"dweb:/ipfs/QmU5crGLqDoAXaBuTTQSHn1PMwijeSL6Jw9s5ZQenPM5o4"
 			]
 		}
 	},

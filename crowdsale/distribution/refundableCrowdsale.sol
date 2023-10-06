@@ -17,7 +17,7 @@ import "crowdsale/abstractions/refundable.sol";
  * the goal is unlikely to be met, they sell their tokens (possibly at a discount). The attacker will be refunded when
  * the crowdsale is finalized, and the users that purchased from them will be left with worthless tokens.
  */
-contract RefundableCrowdsale is Context, FinalizableCrowdsale, RefundableContract {
+abstract contract RefundableCrowdsale is Context, FinalizableCrowdsale, RefundableContract {
     using SafeMath for uint256;
 
     /**

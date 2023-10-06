@@ -1,0 +1,114 @@
+{
+	"compiler": {
+		"version": "0.8.21+commit.d9974bed"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "PrimaryTransferred",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "primary",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "recipient",
+						"type": "address"
+					}
+				],
+				"name": "transferPrimary",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "A Secondary contract can only be used by its primary account (the one that created it).",
+			"events": {
+				"PrimaryTransferred(address)": {
+					"details": "Emitted when the primary contract changes."
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"constructor": {
+					"details": "Sets the primary account to the one that is creating the Secondary contract."
+				},
+				"primary()": {
+					"returns": {
+						"_0": "the address of the primary."
+					}
+				},
+				"transferPrimary(address)": {
+					"details": "Transfers contract to a new primary.",
+					"params": {
+						"recipient": "The address of new primary."
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"crowdsale/secondary.sol": "Secondary"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0x75a4ee64c68dbd5f38bddd06e664a64c8271b4caa554fb6f0607dfd672bb4bf3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0c4e6cb30d3601e2f7af5af09e265508147cb275a8dcd99d6f7363645cc56867",
+				"dweb:/ipfs/QmNgFkoXNWoUbAyw71rr1sKQ95Rj2GfvYiWg79xEYDn2NY"
+			]
+		},
+		"crowdsale/secondary.sol": {
+			"keccak256": "0xf44dab61428b4cb8313e79f7fc8c98c413946241c9484b04f014879a3fec971d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f72f67cf3c98a881c7abd80c8204fd7f07ae9cbd64b08aafcebe1a393a846e4f",
+				"dweb:/ipfs/QmcZFDwuFPm7XARfWJn48hWtX5zNo4RWGxPwq6EEdYEExs"
+			]
+		}
+	},
+	"version": 1
+}

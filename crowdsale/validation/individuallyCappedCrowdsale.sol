@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
  * @title IndividuallyCappedCrowdsale
  * @dev Crowdsale with per-beneficiary caps.
  */
-contract IndividuallyCappedCrowdsale is Crowdsale, AccessControl {
+abstract contract IndividuallyCappedCrowdsale is Crowdsale, AccessControl {
     using SafeMath for uint256;
 
     mapping(address => uint256) private _contributions;

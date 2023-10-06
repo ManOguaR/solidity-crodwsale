@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
  * @title WhitelistCrowdsale
  * @dev Crowdsale in which only whitelisted users can contribute.
  */
-contract WhitelistCrowdsale is Crowdsale, AccessControl {
+abstract contract WhitelistCrowdsale is Crowdsale, AccessControl {
     bytes32 public constant WHITELISTED_ROLE = keccak256("WHITELISTED_ROLE");
     bytes32 public constant WHITELIST_ADMIN_ROLE = keccak256("WHITELIST_ADMIN_ROLE");
 
