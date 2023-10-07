@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-
-import "crowdsale/validation/timedCrowdsale.sol";
-import "crowdsale/secondary.sol";
+import "contracts/validation/timedCrowdsale.sol";
+import "solid-struct/contracts/context/secondary.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /**
  * @title PostDeliveryCrowdsale

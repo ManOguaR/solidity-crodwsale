@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "crowdsale/validation/timedCrowdsale.sol";
+import "contracts/validation/timedCrowdsale.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 /**

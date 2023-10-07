@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-
-import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "crowdsale/distribution/finalizableCrowdsale.sol";
-import "crowdsale/abstractions/refundable.sol";
+import "contracts/distribution/finalizableCrowdsale.sol";
+import { Context } from "@openzeppelin/contracts/utils/Context.sol";
+import { RefundableContract } from "solid-struct/contracts/context/refundable.sol";
 
 /**
  * @title RefundableCrowdsale
@@ -20,13 +19,26 @@ import "crowdsale/abstractions/refundable.sol";
 abstract contract RefundableCrowdsale is Context, FinalizableCrowdsale, RefundableContract {
     using SafeMath for uint256;
 
+    // minimum amount of funds to be raised in weis
+    uint256 private _goal;
+
     /**
      * @dev Constructor, creates RefundEscrow.
      * @param inGoal Funding goal
      */
     constructor (uint256 inGoal, uint256 inOpeningTime, uint256 inClosingTime, uint256 inRate, address payable inWallet, IERC20 inToken) 
     FinalizableCrowdsale(inOpeningTime, inClosingTime, inRate, inWallet, inToken)
-    RefundableContract(inGoal, inWallet) {}
+    RefundableContract(inWallet) {
+        require(inGoal > 0, "RefundableCrowdsale: goal is 0");
+        _goal = inGoal;
+    }
+
+    /**
+     * @return minimum amount of funds to be raised in wei.
+     */
+    function goal() public view returns (uint256) {
+        return _goal;
+    }
 
     /**
      * @dev Investors can claim refunds here if crowdsale is unsuccessful.

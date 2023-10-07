@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "crowdsale/crowdsale.sol";
+import "contracts/crowdsale.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
-
 
 /**
  * @title WhitelistCrowdsale

@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-
-import "crowdsale/crowdsale.sol";
-import "crowdsale/abstractions/mintable.sol";
+import "contracts/crowdsale.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import {IMintable} from "solid-struct/contracts/abstractions/mintable.sol";
 
 /**
  * @title MintedCrowdsale
@@ -25,6 +24,6 @@ abstract contract MintedCrowdsale is Crowdsale, AccessControl {
      */
     function _deliverTokens(address beneficiary, uint256 tokenAmount) internal override  {
         // Potentially dangerous assumption about the type of the token.
-        require(ERC20Mintable(address(token())).mint(beneficiary, tokenAmount), "MintedCrowdsale: minting failed");
+        require(IMintable(address(token())).mint(beneficiary, tokenAmount), "MintedCrowdsale: minting failed");
     }
 }

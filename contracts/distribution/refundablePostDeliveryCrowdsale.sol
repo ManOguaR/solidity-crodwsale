@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-
-import "crowdsale/crowdsale.sol";
-import "crowdsale/abstractions/refundable.sol";
-import "crowdsale/abstractions/finalizable.sol";
-import "crowdsale/distribution/postDeliveryCrowdsale.sol";
+import "contracts/crowdsale.sol";
+import "contracts/distribution/postDeliveryCrowdsale.sol";
+import { RefundableContract } from "solid-struct/contracts/context/refundable.sol";
+import { FinalizableContract } from "solid-struct/contracts/abstractions/finalizable.sol";
 
 /**
  * @title RefundablePostDeliveryCrowdsale
