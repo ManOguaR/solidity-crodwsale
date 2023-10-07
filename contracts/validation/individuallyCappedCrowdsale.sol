@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "contracts/crowdsale.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "solid-struct/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**

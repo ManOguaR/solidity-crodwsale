@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "contracts/validation/timedCrowdsale.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "solid-struct/contracts/math/SafeMath.sol";
 
 /**
  * @title IncreasingPriceCrowdsale

@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 import "contracts/crowdsale.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import {IMintable} from "solid-struct/contracts/abstractions/mintable.sol";
+import {IMintable} from "solid-struct/contracts/tokens/mintable.sol";
 
 /**
  * @title MintedCrowdsale
