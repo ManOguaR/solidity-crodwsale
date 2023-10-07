@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 import "contracts/crowdsale.sol";
 import "contracts/distribution/postDeliveryCrowdsale.sol";
-import { RefundableContract } from "solid-struct/contracts/context/refundable.sol";
+import { Refundable } from "solid-struct/contracts/context/refundable.sol";
 import { FinalizableContract } from "solid-struct/contracts/abstractions/finalizable.sol";
 
 /**
@@ -12,7 +12,10 @@ import { FinalizableContract } from "solid-struct/contracts/abstractions/finaliz
  * once the crowdsale has closed and the goal met, preventing refunds to be issued
  * to token holders.
  */
-abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, RefundableContract, FinalizableContract {
+abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, Refundable, FinalizableContract {
+    // minimum amount of funds to be raised in weis
+    uint256 private _goal;
+
     constructor(
         uint256 inGoal,
         uint256 inOpeningTime,
@@ -22,10 +25,18 @@ abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, Refu
         IERC20 inToken
         )
         PostDeliveryCrowdsale(inOpeningTime, inClosingTime, inRate, inWallet, inToken)
-        RefundableContract(inGoal, inWallet)
-        FinalizableContract()
-        {
+        Refundable(inWallet)
+        FinalizableContract(){
+            require(inGoal > 0, "RefundableCrowdsale: goal is 0");
+            _goal = inGoal;
         }
+
+    /**
+     * @return minimum amount of funds to be raised in wei.
+     */
+    function goal() public view returns (uint256) {
+        return _goal;
+    }
 
     function withdrawTokens(address beneficiary) public override {
         require(finalized(), "RefundablePostDeliveryCrowdsale: not finalized");
@@ -55,14 +66,13 @@ abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, Refu
     /**
      * @dev Escrow finalization task, called when finalize() is called.
      */
-    function _finalization() internal override {
+    function _finalization() internal override returns (bool) {
         if (goalReached()) {
             _closeAndWithdraw();
         } else {
             _enableRefunds();
         }
-
-        super._finalization();
+        return super._finalization();
     }
 
     /**

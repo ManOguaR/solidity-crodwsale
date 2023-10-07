@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "solid-struct/contracts/math/SafeMath.sol";
-import "contracts/validation/timedCrowdsale.sol";
 import { FinalizableContract } from "solid-struct/contracts/abstractions/finalizable.sol";
+import "solid-struct/contracts/math/SafeMath.sol";
+import "../validation/timedCrowdsale.sol";
+
 
 /**
  * @title FinalizableCrowdsale

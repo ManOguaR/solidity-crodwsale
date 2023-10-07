@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "contracts/validation/timedCrowdsale.sol";
 import "solid-struct/contracts/math/SafeMath.sol";
+import "../validation/timedCrowdsale.sol";
 
 /**
  * @title IncreasingPriceCrowdsale

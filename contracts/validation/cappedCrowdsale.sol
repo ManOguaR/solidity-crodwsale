@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "solid-struct/contracts/math/SafeMath.sol";
-import "contracts/crowdsale.sol";
+import "../crowdsale.sol";
 
 /**
  * @title CappedCrowdsale

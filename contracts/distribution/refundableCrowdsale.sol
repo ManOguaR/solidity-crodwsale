@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "solid-struct/contracts/math/SafeMath.sol";
 import "contracts/distribution/finalizableCrowdsale.sol";
 import { Context } from "@openzeppelin/contracts/utils/Context.sol";
-import { RefundableContract } from "solid-struct/contracts/context/refundable.sol";
+import { Refundable } from "solid-struct/contracts/context/refundable.sol";
 
 /**
  * @title RefundableCrowdsale
@@ -16,7 +16,7 @@ import { RefundableContract } from "solid-struct/contracts/context/refundable.so
  * the goal is unlikely to be met, they sell their tokens (possibly at a discount). The attacker will be refunded when
  * the crowdsale is finalized, and the users that purchased from them will be left with worthless tokens.
  */
-abstract contract RefundableCrowdsale is Context, FinalizableCrowdsale, RefundableContract {
+abstract contract RefundableCrowdsale is Context, FinalizableCrowdsale, Refundable {
     using SafeMath for uint256;
 
     // minimum amount of funds to be raised in weis
@@ -28,7 +28,7 @@ abstract contract RefundableCrowdsale is Context, FinalizableCrowdsale, Refundab
      */
     constructor (uint256 inGoal, uint256 inOpeningTime, uint256 inClosingTime, uint256 inRate, address payable inWallet, IERC20 inToken) 
     FinalizableCrowdsale(inOpeningTime, inClosingTime, inRate, inWallet, inToken)
-    RefundableContract(inWallet) {
+    Refundable(inWallet) {
         require(inGoal > 0, "RefundableCrowdsale: goal is 0");
         _goal = inGoal;
     }
@@ -61,14 +61,13 @@ abstract contract RefundableCrowdsale is Context, FinalizableCrowdsale, Refundab
     /**
      * @dev Escrow finalization task, called when finalize() is called.
      */
-    function _finalization() internal override {
+    function _finalization() internal override returns(bool) {
         if (goalReached()) {
             _closeAndWithdraw();
         } else {
             _enableRefunds();
         }
-
-        super._finalization();
+        return super._finalization();
     }
 
     /**
