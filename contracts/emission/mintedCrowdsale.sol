@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "contracts/crowdsale.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import {IMintable} from "solid-struct/contracts/tokens/mintable.sol";
-
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 /**
  * @title MintedCrowdsale
  * @dev Extension of Crowdsale contract whose tokens are minted in each purchase.
