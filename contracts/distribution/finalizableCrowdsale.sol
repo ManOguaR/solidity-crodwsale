@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import { FinalizableContract } from "solid-struct/contracts/abstractions/finalizable.sol";
+import { Finalizable } from "solid-struct/contracts/abstractions/finalizable.sol";
 import "solid-struct/contracts/math/SafeMath.sol";
 import "../validation/timedCrowdsale.sol";
 
@@ -11,7 +11,7 @@ import "../validation/timedCrowdsale.sol";
  * @dev Extension of TimedCrowdsale with a one-off finalization action, where one
  * can do extra work after finishing.
  */
-abstract contract FinalizableCrowdsale is TimedCrowdsale, FinalizableContract {
+abstract contract FinalizableCrowdsale is TimedCrowdsale, Finalizable {
     using SafeMath for uint256;
 
     /**
@@ -24,7 +24,7 @@ abstract contract FinalizableCrowdsale is TimedCrowdsale, FinalizableContract {
      */
     constructor (uint256 inOpeningTime, uint256 inClosingTime, uint256 inRate, address payable inWallet, IERC20 inToken) 
     TimedCrowdsale(inOpeningTime, inClosingTime, inRate, inWallet, inToken)
-    FinalizableContract() {
+    Finalizable() {
     }
 
     /**

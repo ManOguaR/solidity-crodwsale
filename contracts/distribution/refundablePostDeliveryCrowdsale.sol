@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "contracts/crowdsale.sol";
 import "contracts/distribution/postDeliveryCrowdsale.sol";
 import { Refundable } from "solid-struct/contracts/context/refundable.sol";
-import { FinalizableContract } from "solid-struct/contracts/abstractions/finalizable.sol";
+import { Finalizable } from "solid-struct/contracts/abstractions/finalizable.sol";
 
 /**
  * @title RefundablePostDeliveryCrowdsale
@@ -12,7 +12,7 @@ import { FinalizableContract } from "solid-struct/contracts/abstractions/finaliz
  * once the crowdsale has closed and the goal met, preventing refunds to be issued
  * to token holders.
  */
-abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, Refundable, FinalizableContract {
+abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, Refundable, Finalizable {
     // minimum amount of funds to be raised in weis
     uint256 private _goal;
 
@@ -26,7 +26,7 @@ abstract contract RefundablePostDeliveryCrowdsale is PostDeliveryCrowdsale, Refu
         )
         PostDeliveryCrowdsale(inOpeningTime, inClosingTime, inRate, inWallet, inToken)
         Refundable(inWallet)
-        FinalizableContract(){
+        Finalizable(){
             require(inGoal > 0, "RefundableCrowdsale: goal is 0");
             _goal = inGoal;
         }
