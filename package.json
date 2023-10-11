@@ -26,6 +26,6 @@
   "homepage": "https://github.com/ManOguaR/solidity-crodwsale#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.0",
-    "solid-struct": "^2.3.0"
+    "solid-struct": "^2.4.0"
   }
 }
