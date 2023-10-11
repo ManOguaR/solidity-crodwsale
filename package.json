@@ -1,6 +1,6 @@
 {
   "name": "solidity-crodwsale",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "This package recovers the old OpenZeppelin 2.5.1 crowdsale contracts and get them updated to latest OpenZeppelin and solidity compiler versions",
   "main": "index.js",
   "scripts": {
