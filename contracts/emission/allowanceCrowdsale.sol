@@ -3,9 +3,8 @@ pragma solidity ^0.8.9;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/math/Math.sol";
 import "solid-struct/contracts/math/SafeMath.sol";
-import "../crowdsale.sol";
+import {Crowdsale} from "../crowdsale.sol";
 
 /**
  * @title AllowanceCrowdsale

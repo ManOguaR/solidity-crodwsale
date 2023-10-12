@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import {IMintable} from "solid-struct/contracts/tokens/mintable.sol";
-import "../crowdsale.sol";
+import {Crowdsale} from "../crowdsale.sol";
 
 /**
  * @title MintedCrowdsale
  * @dev Extension of Crowdsale contract whose tokens are minted in each purchase.
  * Token ownership should be transferred to MintedCrowdsale for minting.
  */
-abstract contract MintedCrowdsale is Crowdsale, AccessControl {
-    constructor(uint256 inRate, address payable inWallet, ERC20 inToken)
+abstract contract MintedCrowdsale is Crowdsale {
+    constructor(uint256 inRate, address payable inWallet, IERC20 inToken)
         Crowdsale(inRate, inWallet, inToken)
     {
 
