@@ -1,7 +1,7 @@
 ﻿# solidity-crowdsale
 Thre are a set of solidity contracts that can be used to create a crowdsale for a token.
 The contracts are based on the old OpenZeppelin 2.5.1 contracts, but updated to use the
-latest OpenZeppelin 5.0.0 contracts.
+latest OpenZeppelin 5.0.0 contracts...
 
 ## why
 Because the old OpenZeppelin 2.5.1 contracts are not compatible with the latest solidity
@@ -11,6 +11,9 @@ upgrading it all and decided to share it with the world.
 ### known limitations
 Very limited access control. You must implement your own access control for the crowdsale
 if you want to use full OpenZeppelin 5.0.0 access control features.
+Current version supports 4.x.x version due compiler incompatibility for Polygon is some
+development platforms and IDEs.
+When these guys solve that i simply upgrade the version, sorry bro!
 
 ## how to use
 Directly override the contract you want to use, functionallity is the same as the old
